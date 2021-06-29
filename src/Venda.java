@@ -2,6 +2,7 @@
 public class Venda {
 	private double valor;
 	private Cliente cliente;
+	private boolean pagamentoAVista = true;
 	private ICredito creditoService;
 	
 	public Venda(double valor, Cliente cliente, ICredito creditoService) {
@@ -21,12 +22,22 @@ public class Venda {
 	
 	public boolean checkout() {
 		double limite;
+		
+		if (pagamentoAVista) {
+			return true;
+		}
+		
 		limite = creditoService.getLimite(cliente.getCpf());
 		if (valor > limite) {
 			return false;
 		}
 		
 		return true;
+	}
+
+	public void setPagamentoAPrazo() {
+		pagamentoAVista = false;
+		
 	}
 
 }
