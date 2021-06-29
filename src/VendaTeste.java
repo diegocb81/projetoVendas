@@ -43,5 +43,22 @@ public class VendaTeste {
 		
 		verify(creditoService, never()).getLimite(cliente.getCpf());
 	}
+	
+	@Test
+	public void testCheckoutNaoEfetivaVendaSeCreditoServiceFalhar() {
+		Cliente cliente = new Cliente("123", "João");
+		ICredito creditoService = mock(ICredito.class);
+		when(creditoService.getLimite(anyString())).thenThrow(new RuntimeException());
+		Venda venda = new Venda(2000, cliente, creditoService);
+		venda.setPagamentoAPrazo();
+		
+		boolean resultado = venda.checkout();
+		
+		assertFalse(resultado);
+	}
+
+	private String anyString() {
+		return null;
+	}
 
 }

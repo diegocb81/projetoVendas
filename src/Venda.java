@@ -27,8 +27,12 @@ public class Venda {
 			return true;
 		}
 		
-		limite = creditoService.getLimite(cliente.getCpf());
-		if (valor > limite) {
+		try {
+			limite = creditoService.getLimite(cliente.getCpf());
+			if (valor > limite) {
+				return false;
+			}
+		}catch (RuntimeException e) {
 			return false;
 		}
 		
